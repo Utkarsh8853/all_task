@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /********************Using while loop*******************************/
+        let n = 5;
+        while(n>0){
+            let i=0;
+            while(n-i>0){
+                document.write("*");
+                i++;
+            }
+            document.write("<br>");
+            n--;
+        }
+        /********************Using do while loop*******************************/
+        n = 5;
+         let i=0;
+        do {
+            do{
+                document.write("*");
+                i++;
+            } while(i<n);
+            i=0;
+            document.write("<br>");
+            n--;
+        } while(i < n);
+        /********************Using for loop***********************************/
+        n = 5;
+        for (let i = 0; i < n; i++) {
+        for (let k = 0; k < n - i; k++) {
+            document.write("*");
+        }
+        document.write("<br>");
+        }
+    </script>
+</body>
+</html>

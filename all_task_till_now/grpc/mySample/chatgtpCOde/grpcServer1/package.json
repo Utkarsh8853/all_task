@@ -1,0 +1,22 @@
+{
+  "name": "grpcserver1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsc && NODE_ENV=local node dist/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@grpc/grpc-js": "^1.9.5",
+    "@grpc/proto-loader": "^0.7.10",
+    "google-protobuf": "^3.21.2",
+    "grpc": "^1.24.11"
+  },
+  "devDependencies": {
+    "@types/node": "^20.8.4"
+  }
+}

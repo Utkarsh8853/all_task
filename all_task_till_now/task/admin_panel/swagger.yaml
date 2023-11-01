@@ -1,0 +1,958 @@
+openapi: 3.0.0
+info:
+  title: E-Commerce site with integrated Chatbot
+  version: 1.0.0
+  description: E-commerce site to buy and sell product
+
+tags:
+  - name: Admin Authentication
+    description: APIs related to admin authentication
+  - name: Buyer Authentication
+    description: APIs related to buyer Auhentication
+  - name: Seller Authentication
+    description: APIs related to seller Auhentication
+  - name: User Dashboard
+    description: APIs related to user dashboard actions
+  - name: Product Category
+    description: APIs related to category
+  - name: Product
+    description: APIs related to product
+  - name: User Cart
+    description: APIs related to cart
+  - name: Search
+    description: APIs for product search
+  - name: Order
+    description: APIs for User order history
+  - name: Review
+    description: APIs for product review
+
+paths:
+  /admin/googleSignin:
+    get:
+      summary: Initiate Google Sign-In
+      tags:
+        - Admin Authentication
+      responses:
+        "200":
+          description: Redirects to Google Sign-In page
+
+  /admin/numberSignin:
+    post:
+      summary: Send verification code to phone number
+      tags:
+        - Admin Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                ph_no:
+                  type: string
+      responses:
+        "200":
+          description: Verification code sent
+
+  /admin/otpVerify:
+    post:
+      summary: Verify phone number using OTP
+      tags:
+        - Admin Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                ph_no:
+                  type: string
+                otp:
+                  type: string
+      responses:
+        "200":
+          description: Phone number verified
+
+  /admin/login:
+    post:
+      summary: User Login
+      tags:
+        - Admin Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+              email:
+                type: string
+              password:
+                type: string
+      responses:
+        "200":
+          description: User logged in successfully
+          content:
+            application/json:
+              example:
+                message: User Login Successfully
+                token: JWT_Token_String
+
+  /admin/logout:
+    delete:
+      summary: User Logout
+      tags:
+        - Admin Authentication
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: User logged out
+
+  /admin/forgetPassword:
+    get:
+      summary: Send password reset code to email
+      tags:
+        - Admin Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                email:
+                  type: string
+      responses:
+        "200":
+          description: Password reset code sent to email
+
+  /admin/setPassword:
+    put:
+      summary: Set a new password using the reset code
+      tags:
+        - Admin Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                email:
+                  type: string
+                otp:
+                  type: string
+                newPassword:
+                  type: string
+      responses:
+        "200":
+          description: Password set successfully
+
+  ############################################  ADMIN ACTION ###############################################################
+
+  /admin/category:
+    post:
+      summary: Add a new category
+      tags:
+        - Admin Action
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                category_name:
+                  type: string
+      responses:
+        "200":
+          description: Category added
+
+    put:
+      summary: Update category name
+      tags:
+        - Admin Action
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                category_id:
+                  type: string
+                category_name:
+                  type: string
+      responses:
+        "200":
+          description: Category name updated
+
+    delete:
+      summary: Delete a category
+      tags:
+        - Admin Action
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                category_id:
+                  type: string
+      responses:
+        "200":
+          description: Category deleted
+
+  /admin/seller:
+    put:
+      summary: Approve a seller
+      tags:
+        - Admin Action
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                seller_id:
+                  type: string
+      responses:
+        "200":
+          description: Seller approved
+
+    get:
+      summary: View all sellers
+      tags:
+        - Admin Action
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: List of sellers
+
+    delete:
+      summary: Remove a seller
+      tags:
+        - Admin Action
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                seller_id:
+                  type: string
+      responses:
+        "200":
+          description: Seller removed
+
+  /admin/buyer:
+    get:
+      summary: View all buyers
+      tags:
+        - Admin Action
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: List of buyers
+  ############################ Buyer Login ##########################################################################
+  /buyer/googleSignin:
+    get:
+      summary: Initiate Google Sign-In
+      tags:
+        - Buyer Authentication
+      responses:
+        "200":
+          description: Redirects to Google Sign-In page
+
+  /buyer/numberSignin:
+    post:
+      summary: Send verification code to phone number
+      tags:
+        - Buyer Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                ph_no:
+                  type: string
+      responses:
+        "200":
+          description: Verification code sent
+
+  /buyer/otpVerify:
+    post:
+      summary: Verify phone number using OTP
+      tags:
+        - Buyer Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                ph_no:
+                  type: string
+                otp:
+                  type: string
+                name:
+                  type: string
+      responses:
+        "200":
+          description: Phone number verified
+
+  /buyer/signup:
+    post:
+      summary: User Signup
+      tags:
+        - Buyer Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200":
+          description: User registered successfully
+
+  /buyer/login:
+    post:
+      summary: User Login
+      tags:
+        - Buyer Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200":
+          description: User logged in successfully
+          content:
+            application/json:
+              example:
+                message: User Login Successfully
+                token: JWT_Token_String
+
+  /buyer/logout:
+    delete:
+      summary: User Logout
+      tags:
+        - Buyer Authentication
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: User logged out
+
+  /buyer/forgetPassword:
+    post:
+      summary: Send password reset code to email
+      tags:
+        - Buyer Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                email:
+                  type: string
+      responses:
+        "200":
+          description: Password reset code sent to email
+
+  /buyer/setPassword:
+    put:
+      summary: Set a new password using the reset code
+      tags:
+        - Buyer Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                email:
+                  type: string
+                otp:
+                  type: string
+                newPassword:
+                  type: string
+      responses:
+        "200":
+          description: Password set successfully
+
+  ############################ Seller Login ##########################################################################
+  /seller/googleSignin:
+    get:
+      summary: Initiate Google Sign-In
+      tags:
+        - Seller Authentication
+      responses:
+        "200":
+          description: Redirects to Google Sign-In page
+
+  /seller/numberSignin:
+    post:
+      summary: Send verification code to phone number
+      tags:
+        - Seller Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                ph_no:
+                  type: string
+      responses:
+        "200":
+          description: Verification code sent
+
+  /seller/otpVerify:
+    post:
+      summary: Verify phone number using OTP
+      tags:
+        - Seller Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                ph_no:
+                  type: string
+                otp:
+                  type: string
+                name:
+                  type: string
+      responses:
+        "200":
+          description: Phone number verified
+
+  /seller/signup:
+    post:
+      summary: User Signup
+      tags:
+        - Seller Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200":
+          description: User registered successfully
+
+  /seller/login:
+    post:
+      summary: User Login
+      tags:
+        - Seller Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200":
+          description: User logged in successfully
+          content:
+            application/json:
+              example:
+                message: User Login Successfully
+                token: JWT_Token_String
+
+  /seller/logout:
+    delete:
+      summary: User Logout
+      tags:
+        - Seller Authentication
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: User logged out
+
+  /seller/forgetPassword:
+    post:
+      summary: Send password reset code to email
+      tags:
+        - Seller Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                email:
+                  type: string
+      responses:
+        "200":
+          description: Password reset code sent to email
+
+  /seller/setPassword:
+    put:
+      summary: Set a new password using the reset code
+      tags:
+        - Seller Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                email:
+                  type: string
+                otp:
+                  type: string
+                newPassword:
+                  type: string
+      responses:
+        "200":
+          description: Password set successfully
+
+  ############################ User Dashboard ##########################################################################
+
+  /dashboard/profile:
+    get:
+      summary: View user profile
+      tags:
+        - User Dashboard
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: User profile information
+
+    put:
+      summary: Update user profile
+      tags:
+        - User Dashboard
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                ph_no:
+                  type: string
+      responses:
+        "200":
+          description: Profile updated successfully
+
+    delete:
+      summary: Delete user account
+      tags:
+        - User Dashboard
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: Account deleted successfully
+
+  /dashboard/address:
+    post:
+      summary: Add a new address
+      tags:
+        - User Dashboard
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                house_no:
+                  type: string
+                street_no:
+                  type: string
+                area:
+                  type: string
+                city:
+                  type: string
+                state:
+                  type: string
+                zip_code:
+                  type: string
+      responses:
+        "200":
+          description: Address added successfully
+
+    put:
+      summary: Update an address
+      tags:
+        - User Dashboard
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                _id:
+                  type: string
+                house_no:
+                  type: string
+                street_no:
+                  type: string
+                area:
+                  type: string
+                city:
+                  type: string
+                state:
+                  type: string
+                zip_code:
+                  type: string
+      responses:
+        "200":
+          description: Address updated successfully
+
+    get:
+      summary: Get all addresses
+      tags:
+        - User Dashboard
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: List of addresses
+
+    delete:
+      summary: Delete an address
+      tags:
+        - User Dashboard
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                address_id:
+                  type: string
+      responses:
+        "200":
+          description: Address deleted successfully
+
+  /dashboard/password:
+    put:
+      summary: Update user password
+      tags:
+        - User Dashboard
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                password:
+                  type: string
+      responses:
+        "200":
+          description: Password updated successfully
+
+  ############################ Product Category ##########################################################################
+  /category:
+    get:
+      summary: View all categories
+      tags:
+        - Product Category
+      responses:
+        200:
+          description: Successful response
+
+  ############################ Product ##########################################################################
+  /product:
+    post:
+      summary: Add a product
+      tags:
+        - Product
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                price:
+                  type: number
+                quantity:
+                  type: number
+                category_id:
+                  type: string
+      responses:
+        200:
+          description: Successful response
+    put:
+      summary: Update a product
+      tags:
+        - Product
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                product_id:
+                  type: string
+                name:
+                  type: string
+                description:
+                  type: string
+                price:
+                  type: number
+                quantity:
+                  type: number
+                category_id:
+                  type: string
+      responses:
+        200:
+          description: Successful response
+    delete:
+      summary: Remove a product
+      tags:
+        - Product
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                product_id:
+                  type: string
+      responses:
+        200:
+          description: Successful response
+
+  ############################ User Cart ##########################################################################
+  /cart:
+    post:
+      summary: Add a product to cart
+      tags:
+        - User Cart
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                product_id:
+                  type: string
+      responses:
+        200:
+          description: Successful response
+    delete:
+      summary: Remove a product from cart
+      tags:
+        - User Cart
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                product_id:
+                  type: string
+      responses:
+        200:
+          description: Successful response
+    get:
+      summary: View my cart
+      tags:
+        - User Cart
+      security:
+        - BearerAuth: []
+      responses:
+        200:
+          description: Successful response
+    put:
+      summary: Update quantity in cart
+      tags:
+        - User Cart
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                product_id:
+                  type: string
+                quanity:
+                  type: number
+      responses:
+        200:
+          description: Successful response
+
+  ############################ User Order History ##########################################################################
+  /order:
+    post:
+      summary: Buy products in cart
+      tags:
+        - Order
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                address_id:
+                  type: string
+      responses:
+        "200":
+          description: OK
+    delete:
+      summary: Cancel an order
+      tags:
+        - Order
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                order_id:
+                  type: string
+      responses:
+        "200":
+          description: OK
+    get:
+      summary: View my orders
+      tags:
+        - Order
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: OK
+
+  ############################ Product Search ##########################################################################
+  /search:
+    post:
+      summary: Filter products by name
+      tags:
+        - Search
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                name:
+                  type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+
+  ############################ Product Review ##########################################################################
+  /review:
+    post:
+      summary: Add a review
+      tags:
+        - Review
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                order_id:
+                  type: string
+                rating:
+                  type: number
+                comment:
+                  type: string
+      responses:
+        "200":
+          description: OK
+    delete:
+      summary: Delete a review
+      tags:
+        - Review
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                review_id:
+                  type: string
+      responses:
+        "200":
+          description: OK
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

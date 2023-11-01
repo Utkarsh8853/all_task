@@ -1,0 +1,31 @@
+{
+  "name": "social_login",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsc && NODE_ENV=local node dist/index1.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "utkarsh",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "passport": "^0.6.0",
+    "passport-google-oauth": "^2.0.0",
+    "passport-google-oauth20": "^2.0.0",
+    "pg": "^8.11.2",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.32.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "@types/express-session": "^1.17.7",
+    "@types/passport": "^1.0.12",
+    "@types/passport-google-oauth20": "^2.0.11",
+    "@types/pg": "^8.10.2",
+    "typescript": "^5.1.6"
+  }
+}

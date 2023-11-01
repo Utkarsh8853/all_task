@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package second;
+
+service SecondService {
+  rpc SecondMethod (SecondRequest) returns (SecondResponse);
+}
+
+message SecondRequest {
+  string message = 1;
+}
+
+message SecondResponse {
+  string message = 1;
+}
